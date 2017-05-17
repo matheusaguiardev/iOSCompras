@@ -7,6 +7,9 @@ target 'IosCompras' do
 
   # Pods for IosCompras
     pod 'Firebase/Core'
-
+    pod 'Firebase/Auth'
+    pod 'FacebookCore'
+    pod 'FacebookLogin'
+    pod 'FacebookShare'
 
 end

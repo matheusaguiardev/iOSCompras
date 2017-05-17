@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4FDBCE2705C705C5C3600BE3 /* Pods_IosCompras.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1CFEB283E55BA8D057C56F /* Pods_IosCompras.framework */; };
+		B6851A3B1ECCA0EE00CFA1A6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6851A3A1ECCA0EE00CFA1A6 /* LoginViewController.swift */; };
+		B6851A3F1ECCA15700CFA1A6 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6851A3E1ECCA15700CFA1A6 /* HomeTableViewController.swift */; };
 		B6E754761ECBBE420054BF19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E754751ECBBE420054BF19 /* AppDelegate.swift */; };
-		B6E754781ECBBE420054BF19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E754771ECBBE420054BF19 /* ViewController.swift */; };
 		B6E7547B1ECBBE420054BF19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6E754791ECBBE420054BF19 /* Main.storyboard */; };
 		B6E7547D1ECBBE420054BF19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6E7547C1ECBBE420054BF19 /* Assets.xcassets */; };
 		B6E754801ECBBE420054BF19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6E7547E1ECBBE420054BF19 /* LaunchScreen.storyboard */; };
@@ -19,9 +20,10 @@
 /* Begin PBXFileReference section */
 		65E7FA6551434EBD0106A19B /* Pods-IosCompras.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IosCompras.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IosCompras/Pods-IosCompras.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1CFEB283E55BA8D057C56F /* Pods_IosCompras.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IosCompras.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6851A3A1ECCA0EE00CFA1A6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B6851A3E1ECCA15700CFA1A6 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		B6E754721ECBBE420054BF19 /* IosCompras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IosCompras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6E754751ECBBE420054BF19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B6E754771ECBBE420054BF19 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B6E7547A1ECBBE420054BF19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B6E7547C1ECBBE420054BF19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6E7547F1ECBBE420054BF19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -59,6 +61,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B6851A3C1ECCA10500CFA1A6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				B6851A3A1ECCA0EE00CFA1A6 /* LoginViewController.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		B6851A3D1ECCA12500CFA1A6 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				B6851A3E1ECCA15700CFA1A6 /* HomeTableViewController.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
 		B6E754691ECBBE420054BF19 = {
 			isa = PBXGroup;
 			children = (
@@ -80,8 +98,9 @@
 		B6E754741ECBBE420054BF19 /* IosCompras */ = {
 			isa = PBXGroup;
 			children = (
+				B6851A3D1ECCA12500CFA1A6 /* Home */,
+				B6851A3C1ECCA10500CFA1A6 /* Login */,
 				B6E754751ECBBE420054BF19 /* AppDelegate.swift */,
-				B6E754771ECBBE420054BF19 /* ViewController.swift */,
 				B6E754791ECBBE420054BF19 /* Main.storyboard */,
 				B6E7547C1ECBBE420054BF19 /* Assets.xcassets */,
 				B6E7547E1ECBBE420054BF19 /* LaunchScreen.storyboard */,
@@ -216,7 +235,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6E754781ECBBE420054BF19 /* ViewController.swift in Sources */,
+				B6851A3F1ECCA15700CFA1A6 /* HomeTableViewController.swift in Sources */,
+				B6851A3B1ECCA0EE00CFA1A6 /* LoginViewController.swift in Sources */,
 				B6E754761ECBBE420054BF19 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,6 +362,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5YHVG3JT6B;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FacebookSDKs-iOS-4",
+				);
 				INFOPLIST_FILE = IosCompras/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.aguiar.IosCompras;
@@ -356,6 +380,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5YHVG3JT6B;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FacebookSDKs-iOS-4",
+				);
 				INFOPLIST_FILE = IosCompras/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.aguiar.IosCompras;
@@ -383,6 +411,7 @@
 				B6E754861ECBBE420054BF19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
