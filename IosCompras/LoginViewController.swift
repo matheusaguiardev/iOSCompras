@@ -12,10 +12,9 @@ import FacebookLogin
 import FBSDKLoginKit
 
 
-class LoginViewController: UIViewController {
-    
-    @IBOutlet weak var fbLogin: FBSDKLoginButton!
-
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+   
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         loadFacebookKit()
@@ -30,20 +29,40 @@ class LoginViewController: UIViewController {
     
     
     func loadFacebookKit() -> Void {
-       
-        //let loginButton = FBSDKLoginButton()
-        //loginButton.delegate = self
-    
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["email"]
     }
 
-    /*
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error?) {
+        if let error = error {
+            print(error.localizedDescription)
+            return
+        }
+        
+        let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+        
+        
+        FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+            let a =  user
+            print("\(a!.displayName)")
+            
+            self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
+            
+        }
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("logout")
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        
     }
-    */
+    
 
 }

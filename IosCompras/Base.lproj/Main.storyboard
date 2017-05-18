@@ -72,8 +72,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="I2j-no-cDx"/>
                     <connections>
-                        <outlet property="fbLogin" destination="RE6-Sg-8vV" id="sUT-Gh-kOM"/>
-                        <outlet property="fbLoginButton" destination="RE6-Sg-8vV" id="4LN-N4-cOd"/>
+                        <outlet property="fbLoginButton" destination="RE6-Sg-8vV" id="Nzy-0K-tSc"/>
+                        <segue destination="lly-4b-BIu" kind="show" identifier="LOGIN_SEGUE" id="hlE-7z-3Vr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wXw-5w-ezT" userLabel="First Responder" sceneMemberID="firstResponder"/>
