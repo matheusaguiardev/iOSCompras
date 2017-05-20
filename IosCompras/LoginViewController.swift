@@ -10,11 +10,14 @@ import UIKit
 import FirebaseAuth
 import FacebookLogin
 import FBSDKLoginKit
+import FirebaseDatabase
 
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
    
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
+    var ref: FIRDatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadFacebookKit()
@@ -29,8 +32,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     
     func loadFacebookKit() -> Void {
-        fbLoginButton.delegate = self
-        fbLoginButton.readPermissions = ["email"]
+        self.fbLoginButton.delegate = self
+        self.fbLoginButton.readPermissions = ["email"]
     }
 
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error?) {
@@ -38,18 +41,19 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             print(error.localizedDescription)
             return
         }
-        
-        let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-        
-        
-        FIRAuth.auth()?.signIn(with: credential) { (user, error) in
-            let a =  user
-            print("\(String(describing: a!.displayName))")
+        FBSDKAccessToken.current()
+        if let token = FBSDKAccessToken.current() {
+           let credential = FIRFacebookAuthProvider.credential(withAccessToken: token.tokenString)
             
-            self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
-            
+            FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+                //let a =  user
+                //print("\(String(describing: a!.displayName))")
+                self.ref = FIRDatabase.database().reference()
+                self.ref.child("Compras").child("Itens_de_compra").setValue(["Item_Lista": [String]()])
+                
+                self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
+            }
         }
-        
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {

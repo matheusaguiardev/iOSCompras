@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class HomeTableViewController: UITableViewController {
+class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
+    
+    @IBOutlet weak var logoutFacebook: FBSDKLoginButton!
 
     var listaDeCompras = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.logoutFacebook.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,7 +81,24 @@ class HomeTableViewController: UITableViewController {
         return true
     }
     */
+    
+    /**
+     Sent to the delegate when the button was used to login.
+     - Parameter loginButton: the sender
+     - Parameter result: The results of the login
+     - Parameter error: The error (if any) from the login
+     */
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+    }
 
+
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        navigationController?.popViewController(animated: true)
+        print("logout")
+    }
+
+    
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
     

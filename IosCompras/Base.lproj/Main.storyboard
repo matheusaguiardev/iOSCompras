@@ -80,7 +80,7 @@
             </objects>
             <point key="canvasLocation" x="826.875" y="-99.295774647887328"/>
         </scene>
-        <!--Title-->
+        <!--Atividades-->
         <scene sceneID="Kbd-vU-WBa">
             <objects>
                 <tableViewController id="lly-4b-BIu" customClass="HomeTableViewController" customModule="IosCompras" customModuleProvider="target" sceneMemberID="viewController">
@@ -106,7 +106,18 @@
                             <outlet property="delegate" destination="lly-4b-BIu" id="rna-IE-Wkf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="Pr5-L1-nJQ"/>
+                    <navigationItem key="navigationItem" title="Atividades" id="Pr5-L1-nJQ">
+                        <barButtonItem key="leftBarButtonItem" width="33" style="plain" id="Zv6-8S-XGe">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Oz9-CN-CRK" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="16" y="7" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="logoutFacebook" destination="Oz9-CN-CRK" id="MTj-ZX-127"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pye-dr-a8i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
