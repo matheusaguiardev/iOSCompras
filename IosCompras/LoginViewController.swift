@@ -12,7 +12,7 @@ import FacebookLogin
 import FBSDKLoginKit
 import FirebaseDatabase
 
-
+//  https://firebase.google.com/docs/database/ios/save-data
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
    
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
@@ -46,10 +46,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
            let credential = FIRFacebookAuthProvider.credential(withAccessToken: token.tokenString)
             
             FIRAuth.auth()?.signIn(with: credential) { (user, error) in
-                //let a =  user
-                //print("\(String(describing: a!.displayName))")
                 self.ref = FIRDatabase.database().reference()
-                self.ref.child("Compras").child("Itens_de_compra").setValue(["Item_Lista": [String]()])
+                let key = self.ref.child("Compras").childByAutoId().key
+                let post = ["nome_produto": "Biscoito",
+                            "Marca": "Oreo",
+                            "Detalher": "1 pacote de 50g",
+                            "comprado": "true"]
+                let childUpdates = ["Itens_de_compras_1 \(key)": post,"Itens_de_compras_2": post]
+                
+                self.ref.updateChildValues(childUpdates)
                 
                 self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
             }
