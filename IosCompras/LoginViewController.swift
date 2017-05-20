@@ -44,7 +44,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         FIRAuth.auth()?.signIn(with: credential) { (user, error) in
             let a =  user
-            print("\(a!.displayName)")
+            print("\(String(describing: a!.displayName))")
             
             self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
             
