@@ -97,7 +97,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="USS-Pq-PYb" kind="show" id="OJE-Bx-TPN"/>
+                                    <segue destination="USS-Pq-PYb" kind="show" identifier="LISTA_ITENS" id="OJE-Bx-TPN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -131,13 +131,13 @@
         <!--Title-->
         <scene sceneID="FH1-G3-Qxt">
             <objects>
-                <tableViewController id="USS-Pq-PYb" sceneMemberID="viewController">
+                <tableViewController id="USS-Pq-PYb" customClass="ItensTableViewController" customModule="IosCompras" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1Aq-IZ-xny">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ge0-0f-oZG">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ITEM_CELL" id="ge0-0f-oZG">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ge0-0f-oZG" id="7EG-q9-Ef5">
@@ -152,13 +152,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Title" id="cF9-9X-nyR">
-                        <barButtonItem key="leftBarButtonItem" systemItem="save" id="YHu-eH-RCR"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Rh8-sm-RXf"/>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gZ7-fO-uI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398" y="-345"/>
+            <point key="canvasLocation" x="2370" y="-100"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EUA-49-1h5">
