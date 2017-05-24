@@ -11,10 +11,10 @@ import Firebase
 
 struct Lista {
     var title:String?
-    var addedBy:String?
+    var owner:String?
     var itens:[ItemLista]?
     var ref: FIRDatabaseReference?
     func toAnyObject() -> Any {
-        return ["title":title!, "addedBy":addedBy!]
+        return ["title":title!, "owner":owner!]
     }
 }

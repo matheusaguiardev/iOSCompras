@@ -36,7 +36,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     func loadFacebookKit() -> Void {
         self.fbLoginButton.delegate = self
-        self.fbLoginButton.readPermissions = ["email"]
+        self.fbLoginButton.readPermissions = ["public_profile","email"]
     }
 
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error?) {
@@ -44,7 +44,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             print(error.localizedDescription)
             return
         }
-        FBSDKAccessToken.current()
+        // FBSDKAccessToken.current()
+        
+        
+        
+        
         if let token = FBSDKAccessToken.current() {
            let credential = FIRFacebookAuthProvider.credential(withAccessToken: token.tokenString)
             
@@ -52,10 +56,31 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 self.ref = FIRDatabase.database().reference()
                 
                 // Adicionando o usuário ao database
-                let emailUsuario = FIRAuth.auth()?.currentUser!.email
                 let UID = FIRAuth.auth()?.currentUser!.uid
-                print("ID do Usuário: \(UID!)")
-                self.ref.child("Usuarios").child(UID!).child("email").setValue(emailUsuario)
+                self.ref.child("Usuarios").child(UID!).child("nome").setValue("")
+                
+                if result.grantedPermissions.contains("public_profile"){
+                    
+                    let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath:  "me", parameters: ["fields":"first_name,last_name,email, picture.type(large)"])
+                    graphRequest.start(completionHandler: { (connection, result, error) -> Void in
+                        
+                        if let erro = error {
+                            print("Error: \(erro)")
+                        } else {
+                            if let data = result as? [String:Any] {
+                                let nomeUsuario = (data["first_name"]! as! String) + " " + (data["last_name"]! as! String)
+                                if let profilePictureObj = data["picture"] as? [String:Any] {
+                                    let dataPPO = profilePictureObj["data"] as! [String:Any]
+                                    let pictureUrlString  = dataPPO["url"] as! String
+                                    self.ref.child("Usuarios").child(UID!).child("foto").setValue(pictureUrlString)
+                                }
+                                self.ref.child("Usuarios").child(UID!).child("nome").setValue(nomeUsuario)
+                            }
+                            
+                        }
+                    }
+                )}
+                
                 
                 /*
                 let key = self.ref.child("Compras").childByAutoId().key

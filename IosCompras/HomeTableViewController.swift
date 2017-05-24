@@ -53,11 +53,10 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         self.ref = FIRDatabase.database().reference()
         
         let UID = FIRAuth.auth()?.currentUser!.uid
-        let emailUsuario = FIRAuth.auth()?.currentUser!.email!
-        print(emailUsuario!)
+//        let emailUsuario = FIRAuth.auth()?.currentUser!.email!
         
         // Adicionar lista
-        let objLista = Lista(title: "Teste 2", addedBy: emailUsuario, itens: nil, ref: nil)
+        let objLista = Lista(title: "Teste 2", owner: UID, itens: nil, ref: nil)
         let lista = self.ref.child("Listas").childByAutoId()
         let codLista = lista.key
         lista.setValue(objLista.toAnyObject())
