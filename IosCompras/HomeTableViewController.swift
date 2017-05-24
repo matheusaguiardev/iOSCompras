@@ -10,6 +10,11 @@ import UIKit
 import FBSDKLoginKit
 import Firebase
 
+
+// Link para o exemplo dado em aula:
+// https://bitbucket.org/danielvmacedo/demos_aulas_ios/src/90e8de873e7c8c7322f4f034950b5e93035877ed/13%20-%20FireBaseToDo/MyBase/GroupToDoTableViewController.swift?at=master&fileviewer=file-view-default
+
+
 class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     
     var ref: FIRDatabaseReference!
