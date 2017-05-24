@@ -384,7 +384,7 @@
 				);
 				INFOPLIST_FILE = IosCompras/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.aguiar.IosCompras;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.reffer.IosCompras;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -402,7 +402,7 @@
 				);
 				INFOPLIST_FILE = IosCompras/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.aguiar.IosCompras;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.reffer.IosCompras;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

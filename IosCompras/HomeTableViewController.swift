@@ -43,8 +43,41 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     var ref: FIRDatabaseReference!
     
     @IBOutlet weak var logoutFacebook: FBSDKLoginButton!
+    @IBAction func addLista(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Nova Lista", message: "Título da lista:", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            
+        }
+        
+        let closeAction = UIAlertAction(title: "Fechar", style: .cancel, handler: nil)
+        let saveAction = UIAlertAction(title: "Criar", style: .default, handler:{
+            (action) -> Void in
+            
+            let titulo = alert.textFields![0].text!
+            print(titulo)
+            
+            let UID = FIRAuth.auth()?.currentUser!.uid
+            
+            // Adicionar lista
+            let objLista = Lista(title: titulo, owner: UID, itens: nil, ref: nil)
+            let lista = self.ref.child("Listas").childByAutoId()
+            let codLista = lista.key
+            lista.setValue(objLista.toAnyObject())
+            
+            // Vincular lista ao usuário atual
+            self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).setValue(true)
+            
+        })
+        
+        alert.addAction(closeAction)
+        alert.addAction(saveAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 
-    var listaDeCompras = [String]()
+    var listaDeCompras = [Lista]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,24 +85,67 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         
         self.ref = FIRDatabase.database().reference()
         
-        let UID = FIRAuth.auth()?.currentUser!.uid
-//        let emailUsuario = FIRAuth.auth()?.currentUser!.email!
+        // TODO: Alterar para monitorar a pasta MinhasListas dentro da pasta do usuário Usuarios/UID/MinhasListas
+        self.ref.child("Listas").observeSingleEvent(of:.value, with: { (snapshot) in
+            self.listaDeCompras.removeAll()
+            for childSnapshot in snapshot.children {
+                let child = childSnapshot as! FIRDataSnapshot
+                let value = child.value as! [String: Any]
+                
+                let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
+                
+                self.listaDeCompras.append(newLista)
+                self.tableView.reloadData()
+            }
+        })
         
-        // Adicionar lista
-        let objLista = Lista(title: "Teste 2", owner: UID, itens: nil, ref: nil)
-        let lista = self.ref.child("Listas").childByAutoId()
-        let codLista = lista.key
-        lista.setValue(objLista.toAnyObject())
+        self.ref.child("Listas").observe(.childAdded, with: { (snapshot) in
+            let value = snapshot.value as! [String: Any]
+            
+            let newItem = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
+            
+            self.listaDeCompras.append(newItem)
+            let indexPath = IndexPath(row: self.listaDeCompras.count - 1, section: 0)
+            self.tableView.insertRows(at: [indexPath], with: .fade)
+        })
         
-        // Vincular lista ao usuário
-        self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).setValue(true)
+        self.ref.child("Listas").observe(.childRemoved, with: { (snapshot) in
+            let key = snapshot.key
+            
+            for (index, item) in self.listaDeCompras.enumerated() {
+                if item.ref!.key == key {
+                    self.listaDeCompras.remove(at: index)
+                    let indexPath = IndexPath(row: index, section: 0)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    break;
+                }
+            }
+            
+            
+        })
         
+        self.ref.child("Listas").observe(.childChanged, with: { (snapshot) in
+            let key = snapshot.key
+            let updatedValue = snapshot.value as! [String:Any]
+            
+            for (index, item) in self.listaDeCompras.enumerated() {
+                if item.ref!.key == key {
+                    self.listaDeCompras[index].title = updatedValue["title"] as? String
+                    self.listaDeCompras[index].owner = updatedValue["addedBy"] as? String
+                    break;
+                }
+            }
+            
+            self.tableView.reloadData()
+        })
         
+        /*
         // Adicionar item
         var objItem = ItemLista(name: "Novo Item", ref: nil)
         self.ref.child("Listas").child(codLista).child("itens").childByAutoId().setValue(objItem.toAnyObject())
         objItem = ItemLista(name: "Mais um Item", ref: nil)
         self.ref.child("Listas").child(codLista).child("itens").childByAutoId().setValue(objItem.toAnyObject())
+         */
         
     }
 
@@ -87,14 +163,15 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return listaDeCompras.count
+        return self.listaDeCompras.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LISTA_CELL", for: indexPath)
 
-        // Configure the cell...
+        let lista = listaDeCompras[indexPath.row]
+        cell.textLabel?.text = lista.title
 
         return cell
     }
@@ -108,17 +185,19 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            
+            // Para deletar é preciso verificar se a lista tem outros participantes e deletar a referencia do participante
+            // Só deletar a lista se for o ultimo participante
+            
+            let item = self.listaDeCompras[indexPath.row]
+            item.ref?.removeValue()
+     
+        }
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -150,6 +229,18 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         navigationController?.popViewController(animated: true)
         print("logout")
     }
+    
+    // Logout do professor: (atribuir a um botão da barra)
+    func logOut(){
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+            self.dismiss(animated: true, completion: nil)
+        } catch let signOutError as NSError {
+            print ("Erro efetuando logout: %@", signOutError)
+        }
+    }
+    
 
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -164,6 +255,9 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        
+        
     }
  
 
