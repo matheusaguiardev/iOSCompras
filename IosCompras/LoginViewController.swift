@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 import FacebookLogin
 import FBSDKLoginKit
-import FirebaseDatabase
+
 
 //  https://firebase.google.com/docs/database/ios/save-data
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
@@ -22,6 +22,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         super.viewDidLoad()
         loadFacebookKit()
        
+        if (FBSDKAccessToken.current()) != nil {
+            self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,6 +50,14 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             
             FIRAuth.auth()?.signIn(with: credential) { (user, error) in
                 self.ref = FIRDatabase.database().reference()
+                
+                // Adicionando o usuário ao database
+                let emailUsuario = FIRAuth.auth()?.currentUser!.email
+                let UID = FIRAuth.auth()?.currentUser!.uid
+                print("ID do Usuário: \(UID!)")
+                self.ref.child("Usuarios").child(UID!).child("email").setValue(emailUsuario)
+                
+                /*
                 let key = self.ref.child("Compras").childByAutoId().key
                 let post = ["nome_produto": "Biscoito",
                             "Marca": "Oreo",
@@ -55,6 +66,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 let childUpdates = ["Itens_de_compras_1 \(key)": post,"Itens_de_compras_2": post]
                 
                 self.ref.updateChildValues(childUpdates)
+                */
                 
                 self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
             }

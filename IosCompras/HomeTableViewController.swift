@@ -8,8 +8,11 @@
 
 import UIKit
 import FBSDKLoginKit
+import Firebase
 
 class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
+    
+    var ref: FIRDatabaseReference!
     
     @IBOutlet weak var logoutFacebook: FBSDKLoginButton!
 
@@ -18,6 +21,29 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.logoutFacebook.delegate = self
+        
+        self.ref = FIRDatabase.database().reference()
+        
+        let UID = FIRAuth.auth()?.currentUser!.uid
+        let emailUsuario = FIRAuth.auth()?.currentUser!.email!
+        print(emailUsuario!)
+        
+        // Adicionar lista
+        let objLista = Lista(title: "Teste 2", addedBy: emailUsuario, itens: nil, ref: nil)
+        let lista = self.ref.child("Listas").childByAutoId()
+        let codLista = lista.key
+        lista.setValue(objLista.toAnyObject())
+        
+        // Vincular lista ao usuário
+        self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).child("owner").setValue(true)
+        
+        
+        // Adicionar item
+        var objItem = ItemLista(name: "Novo Item", ref: nil)
+        self.ref.child("Listas").child(codLista).child("itens").childByAutoId().setValue(objItem.toAnyObject())
+        objItem = ItemLista(name: "Mais um Item", ref: nil)
+        self.ref.child("Listas").child(codLista).child("itens").childByAutoId().setValue(objItem.toAnyObject())
+        
     }
 
     override func didReceiveMemoryWarning() {
