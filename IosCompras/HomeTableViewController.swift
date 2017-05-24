@@ -15,6 +15,29 @@ import Firebase
 // https://bitbucket.org/danielvmacedo/demos_aulas_ios/src/90e8de873e7c8c7322f4f034950b5e93035877ed/13%20-%20FireBaseToDo/MyBase/GroupToDoTableViewController.swift?at=master&fileviewer=file-view-default
 
 
+/*
+ Testar permissões no Firebase:
+ 
+ {
+   "rules": {
+     "Usuarios": {
+       "$idUsuario": {
+         ".read": "$idUsuario == auth.uid",
+         ".write": "$idUsuario == auth.uid"
+       }
+     },
+     "Listas": {
+       "$idLista": {
+         ".read": "root.child('Usuarios/' + auth.uid + '/MinhasListas/' + $idLista).exists()",
+         ".write": "root.child('Usuarios/' + auth.uid + '/MinhasListas/' + $idLista).exists()"
+       }
+     }
+   }
+ }
+ 
+ */
+
+
 class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     
     var ref: FIRDatabaseReference!
@@ -40,7 +63,7 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         lista.setValue(objLista.toAnyObject())
         
         // Vincular lista ao usuário
-        self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).child("owner").setValue(true)
+        self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).setValue(true)
         
         
         // Adicionar item
