@@ -86,11 +86,14 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         self.ref = FIRDatabase.database().reference()
         
         // TODO: Alterar para monitorar a pasta MinhasListas dentro da pasta do usuário Usuarios/UID/MinhasListas
+        
         self.ref.child("Listas").observeSingleEvent(of:.value, with: { (snapshot) in
             self.listaDeCompras.removeAll()
             for childSnapshot in snapshot.children {
                 let child = childSnapshot as! FIRDataSnapshot
                 let value = child.value as! [String: Any]
+                
+                // TODO: Para cada ID de lista retornado buscar os dados da lista em Listas/ID e criar o objeto
                 
                 let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
                 
@@ -99,8 +102,12 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
             }
         })
         
+        // Alterar pasta para Usuarios/UID/MinhasListas
+        
         self.ref.child("Listas").observe(.childAdded, with: { (snapshot) in
             let value = snapshot.value as! [String: Any]
+            
+            // TODO: Para cada ID de lista adicionado buscar os dados da lista em Listas/ID e criar o objeto
             
             let newItem = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
             
@@ -108,6 +115,8 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
             let indexPath = IndexPath(row: self.listaDeCompras.count - 1, section: 0)
             self.tableView.insertRows(at: [indexPath], with: .fade)
         })
+        
+        // Alterar pasta para Usuarios/UID/MinhasListas
         
         self.ref.child("Listas").observe(.childRemoved, with: { (snapshot) in
             let key = snapshot.key
@@ -123,6 +132,10 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
             
             
         })
+        
+        // COMO FAZER? Usar um observer para cada lista do usuário?
+        // Se monitorar somente as MinhasListas lá só tem o ID
+        // Ou não permite alteração de nome?
         
         self.ref.child("Listas").observe(.childChanged, with: { (snapshot) in
             let key = snapshot.key
@@ -140,6 +153,7 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         })
         
         /*
+         COLOCAR NA CLASSE DA LISTA DE ITENS
         // Adicionar item
         var objItem = ItemLista(name: "Novo Item", ref: nil)
         self.ref.child("Listas").child(codLista).child("itens").childByAutoId().setValue(objItem.toAnyObject())
@@ -170,6 +184,8 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LISTA_CELL", for: indexPath)
 
+        // TODO: Montar a CELL com o nome do owner
+        
         let lista = listaDeCompras[indexPath.row]
         cell.textLabel?.text = lista.title
 
@@ -190,29 +206,11 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            // Para deletar é preciso verificar se a lista tem outros participantes e deletar a referencia do participante
-            // Só deletar a lista se for o ultimo participante
-            
             let item = self.listaDeCompras[indexPath.row]
             item.ref?.removeValue()
      
         }
     }
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
     
     /**
      Sent to the delegate when the button was used to login.
@@ -224,7 +222,7 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         
     }
 
-
+    // Ver se a outra função é suficiente para o logout e excluir essa e a de cima
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         navigationController?.popViewController(animated: true)
         print("logout")
@@ -250,13 +248,13 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        
+        // TODO: Criar o segue.destinationViewController com cast para a classe de itens
+        // Atribuir o objeto lista ao objeto Lista dentro da classe para consultar itens do ID e título
         
     }
  
