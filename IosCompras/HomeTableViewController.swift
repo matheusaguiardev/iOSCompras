@@ -42,6 +42,8 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     
     var ref: FIRDatabaseReference!
     
+    var UID:String? = nil
+    
     @IBOutlet weak var logoutFacebook: FBSDKLoginButton!
     @IBAction func addLista(_ sender: Any) {
         
@@ -57,16 +59,16 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
             let titulo = alert.textFields![0].text!
             print(titulo)
             
-            let UID = FIRAuth.auth()?.currentUser!.uid
+            
             
             // Adicionar lista
-            let objLista = Lista(title: titulo, owner: UID, itens: nil, ref: nil)
+            let objLista = Lista(title: titulo, owner: self.UID, itens: nil, ref: nil)
             let lista = self.ref.child("Listas").childByAutoId()
             let codLista = lista.key
             lista.setValue(objLista.toAnyObject())
             
             // Vincular lista ao usuário atual
-            self.ref.child("Usuarios").child(UID!).child("MinhasListas").child(codLista).setValue(true)
+            self.ref.child("Usuarios").child(self.UID!).child("MinhasListas").child(codLista).setValue(true)
             
         })
         
@@ -84,45 +86,52 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         self.logoutFacebook.delegate = self
         
         self.ref = FIRDatabase.database().reference()
+        self.UID = FIRAuth.auth()?.currentUser!.uid
+
         
-        // TODO: Alterar para monitorar a pasta MinhasListas dentro da pasta do usuário Usuarios/UID/MinhasListas
-        
-        self.ref.child("Listas").observeSingleEvent(of:.value, with: { (snapshot) in
+        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observeSingleEvent(of:.value, with: { (snapshot) in
             self.listaDeCompras.removeAll()
             for childSnapshot in snapshot.children {
                 let child = childSnapshot as! FIRDataSnapshot
-                let value = child.value as! [String: Any]
+                let idLista = child.key as String
                 
-                // TODO: Para cada ID de lista retornado buscar os dados da lista em Listas/ID e criar o objeto
-                
-                let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
-                
-                self.listaDeCompras.append(newLista)
-                self.tableView.reloadData()
+                // Pegar dados da lista:
+                self.ref.child("Listas/" + idLista + "" ).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let value = snapshot.value as! [String: Any]
+                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
+                    self.listaDeCompras.append(newLista)
+                    self.tableView.reloadData()
+                })
             }
         })
         
         // Alterar pasta para Usuarios/UID/MinhasListas
-        
-        self.ref.child("Listas").observe(.childAdded, with: { (snapshot) in
-            let value = snapshot.value as! [String: Any]
+        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childAdded, with: { (snapshot) in
+            let idLista = snapshot.key as String
+            
+            print("Adicionada: " + idLista)
             
             // TODO: Para cada ID de lista adicionado buscar os dados da lista em Listas/ID e criar o objeto
+            // Pegar dados da lista:
+            self.ref.child("Listas/" + idLista + "" ).observeSingleEvent(of: .value, with: { (snapshot) in
+                let value = snapshot.value as! [String: Any]
+                let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
+                self.listaDeCompras.append(newLista)
+                self.tableView.reloadData()
+            })
             
-            let newItem = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
-            
-            self.listaDeCompras.append(newItem)
-            let indexPath = IndexPath(row: self.listaDeCompras.count - 1, section: 0)
-            self.tableView.insertRows(at: [indexPath], with: .fade)
+            // let indexPath = IndexPath(row: self.listaDeCompras.count - 1, section: 0)
+            //self.tableView.insertRows(at: [indexPath], with: .fade)
         })
+        
         
         // Alterar pasta para Usuarios/UID/MinhasListas
         
-        self.ref.child("Listas").observe(.childRemoved, with: { (snapshot) in
-            let key = snapshot.key
+        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childRemoved, with: { (snapshot) in
+            let idLista = snapshot.key
             
             for (index, item) in self.listaDeCompras.enumerated() {
-                if item.ref!.key == key {
+                if item.ref!.key == idLista {
                     self.listaDeCompras.remove(at: index)
                     let indexPath = IndexPath(row: index, section: 0)
                     self.tableView.deleteRows(at: [indexPath], with: .fade)
@@ -137,14 +146,14 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         // Se monitorar somente as MinhasListas lá só tem o ID
         // Ou não permite alteração de nome?
         
-        self.ref.child("Listas").observe(.childChanged, with: { (snapshot) in
-            let key = snapshot.key
+        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childChanged, with: { (snapshot) in
+            let idLista = snapshot.key
             let updatedValue = snapshot.value as! [String:Any]
             
             for (index, item) in self.listaDeCompras.enumerated() {
-                if item.ref!.key == key {
+                if item.ref!.key == idLista {
                     self.listaDeCompras[index].title = updatedValue["title"] as? String
-                    self.listaDeCompras[index].owner = updatedValue["addedBy"] as? String
+                    self.listaDeCompras[index].owner = updatedValue["owner"] as? String
                     break;
                 }
             }

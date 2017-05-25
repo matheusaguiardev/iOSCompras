@@ -22,7 +22,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         super.viewDidLoad()
         loadFacebookKit()
         
-        FIRDatabase.database().persistenceEnabled = true
+        //FIRDatabase.database().persistenceEnabled = true
        
         if (FBSDKAccessToken.current()) != nil {
             self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
