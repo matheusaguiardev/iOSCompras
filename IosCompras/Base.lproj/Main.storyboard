@@ -97,7 +97,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="USS-Pq-PYb" kind="show" identifier="LISTA_ITENS" id="OJE-Bx-TPN"/>
+                                    <segue destination="USS-Pq-PYb" kind="show" identifier="LISTA_ITENS_SEGUE" id="OJE-Bx-TPN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -256,7 +256,7 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         // Atribuir o objeto lista ao objeto Lista dentro da classe para consultar itens do ID e título
         
         
-        if (segue.identifier == "LISTA_ITENS") {
+        if (segue.identifier == "LISTA_ITENS_SEGUE") {
             if let dvc = segue.destination as? ItensTableViewController {
                 let indexPath = self.tableView.indexPath(for: sender as! UITableViewCell)
                 dvc.lista = self.listaDeCompras[indexPath!.row]
