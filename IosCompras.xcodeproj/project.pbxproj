@@ -377,7 +377,7 @@
 			baseConfigurationReference = 65E7FA6551434EBD0106A19B /* Pods-IosCompras.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TM2QSAWLP8;
+				DEVELOPMENT_TEAM = 5YHVG3JT6B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDKs-iOS-4",
@@ -395,7 +395,7 @@
 			baseConfigurationReference = FE8BD5A72A332A8DDD4EECC0 /* Pods-IosCompras.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TM2QSAWLP8;
+				DEVELOPMENT_TEAM = 5YHVG3JT6B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FacebookSDKs-iOS-4",
