@@ -86,21 +86,21 @@ class HomeTableViewController: UITableViewController {
         self.UID = FIRAuth.auth()?.currentUser!.uid
 
         
-        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observeSingleEvent(of:.value, with: { (snapshot) in
-            self.listaDeCompras.removeAll()
-            for childSnapshot in snapshot.children {
-                let child = childSnapshot as! FIRDataSnapshot
-                let idLista = child.key as String
-                
-                // Pegar dados da lista:
-                self.ref.child("Listas/" + idLista + "" ).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let value = snapshot.value as! [String: Any]
-                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
-                    self.listaDeCompras.append(newLista)
-                    self.tableView.reloadData()
-                })
-            }
-        })
+//        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observeSingleEvent(of:.value, with: { (snapshot) in
+//            self.listaDeCompras.removeAll()
+//            for childSnapshot in snapshot.children {
+//                let child = childSnapshot as! FIRDataSnapshot
+//                let idLista = child.key as String
+//                
+//                // Pegar dados da lista:
+//                self.ref.child("Listas/" + idLista + "" ).observeSingleEvent(of: .value, with: { (snapshot) in
+//                    let value = snapshot.value as! [String: Any]
+//                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:child.ref)
+//                    self.listaDeCompras.append(newLista)
+//                    self.tableView.reloadData()
+//                })
+//            }
+//        })
         
         // Alterar pasta para Usuarios/UID/MinhasListas
         self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childAdded, with: { (snapshot) in
