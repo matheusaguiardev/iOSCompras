@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import FBSDKLoginKit
 import Firebase
-
+import FBSDKLoginKit
 
 // Link para o exemplo dado em aula:
 // https://bitbucket.org/danielvmacedo/demos_aulas_ios/src/90e8de873e7c8c7322f4f034950b5e93035877ed/13%20-%20FireBaseToDo/MyBase/GroupToDoTableViewController.swift?at=master&fileviewer=file-view-default
@@ -38,13 +37,12 @@ import Firebase
  */
 
 
-class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
+class HomeTableViewController: UITableViewController {
     
     var ref: FIRDatabaseReference!
     
     var UID:String? = nil
     
-    @IBOutlet weak var logoutFacebook: FBSDKLoginButton!
     @IBAction func addLista(_ sender: Any) {
         
         let alert = UIAlertController(title: "Nova Lista", message: "Título da lista:", preferredStyle: .alert)
@@ -83,7 +81,6 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.logoutFacebook.delegate = self
         
         self.ref = FIRDatabase.database().reference()
         self.UID = FIRAuth.auth()?.currentUser!.uid
@@ -226,12 +223,9 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
      - Parameter result: The results of the login
      - Parameter error: The error (if any) from the login
      */
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-    }
 
-    // Ver se a outra função é suficiente para o logout e excluir essa e a de cima
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+    @IBAction func Logout(_ sender: UIBarButtonItem) {
+        logOut()
         navigationController?.popViewController(animated: true)
         print("logout")
     }
@@ -241,6 +235,7 @@ class HomeTableViewController: UITableViewController, FBSDKLoginButtonDelegate {
         let firebaseAuth = FIRAuth.auth()
         do {
             try firebaseAuth?.signOut()
+            FBSDKLoginManager().logOut()
             self.dismiss(animated: true, completion: nil)
         } catch let signOutError as NSError {
             print ("Erro efetuando logout: %@", signOutError)
