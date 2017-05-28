@@ -114,10 +114,13 @@ class HomeTableViewController: UITableViewController {
             // TODO: Para cada ID de lista adicionado buscar os dados da lista em Listas/ID e criar o objeto
             // Pegar dados da lista:
             self.ref.child("Listas/" + idLista + "" ).observeSingleEvent(of: .value, with: { (snapshot) in
-                let value = snapshot.value as! [String: Any]
-                let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
-                self.listaDeCompras.append(newLista)
-                self.tableView.reloadData()
+                if (snapshot.value is NSNull) {
+                } else {
+                    let value = snapshot.value as! [String: Any]
+                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
+                    self.listaDeCompras.append(newLista)
+                    self.tableView.reloadData()
+                }
             })
             
             // let indexPath = IndexPath(row: self.listaDeCompras.count - 1, section: 0)
