@@ -61,12 +61,15 @@ class HomeTableViewController: UITableViewController {
             
             // Adicionar lista
             let objLista = Lista(title: titulo, owner: self.UID, itens: nil, ref: nil)
-            let lista = self.ref.child("Listas").childByAutoId()
-            let codLista = lista.key
-            lista.setValue(objLista.toAnyObject())
+            let listas = self.ref.child("Listas")
+            let novaLista = listas.childByAutoId()
+            let codLista = novaLista.key
+            // Adicionar as MinhasListas para o usuário ter permissão
+            self.ref.child("Usuarios").child(self.UID!).child("MinhasListas").child(codLista).setValue(true)
+            // Inserir a lista
+            novaLista.setValue(objLista.toAnyObject())
             
             // Vincular lista ao usuário atual
-            self.ref.child("Usuarios").child(self.UID!).child("MinhasListas").child(codLista).setValue(true)
             
         })
         
@@ -143,7 +146,7 @@ class HomeTableViewController: UITableViewController {
         // Se monitorar somente as MinhasListas lá só tem o ID
         // Ou não permite alteração de nome?
         
-        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childChanged, with: { (snapshot) in
+        self.ref.child( "Usuarios/" + self.UID! + "/MinhasListas" ).observe(.childChanged, with: { (snapshot) in
             let idLista = snapshot.key
             let updatedValue = snapshot.value as! [String:Any]
             
@@ -212,7 +215,10 @@ class HomeTableViewController: UITableViewController {
         if editingStyle == .delete {
             
             let item = self.listaDeCompras[indexPath.row]
-            item.ref?.removeValue()
+            let idLista = item.ref?.key
+            // testar se outra pessoa tem o idLista em MinhasListas
+                item.ref?.removeValue()
+            self.ref.child( "Usuarios/" + self.UID! + "/MinhasListas/" + idLista! ).removeValue()
      
         }
     }
