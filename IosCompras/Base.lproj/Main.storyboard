@@ -98,10 +98,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PHh-I1-GAU">
-                                            <rect key="frame" x="20" y="15" width="118" height="21"/>
+                                            <rect key="frame" x="20" y="15" width="292" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="3qZ-dl-mmZ"/>
-                                                <constraint firstAttribute="width" constant="118" id="nLc-ho-NtS"/>
+                                                <constraint firstAttribute="width" constant="292" id="nLc-ho-NtS"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -175,7 +175,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ITEM_CELL" id="ge0-0f-oZG">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ITEM_CELL" id="ge0-0f-oZG" customClass="ItemListTableViewCell" customModule="IosCompras" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ge0-0f-oZG" id="7EG-q9-Ef5">
@@ -190,7 +190,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Title" id="cF9-9X-nyR">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Rh8-sm-RXf"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Rh8-sm-RXf">
+                            <connections>
+                                <action selector="addItemList:" destination="USS-Pq-PYb" id="k8R-EQ-hEI"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gZ7-fO-uI1" userLabel="First Responder" sceneMemberID="firstResponder"/>

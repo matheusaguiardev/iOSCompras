@@ -10,7 +10,8 @@ import UIKit
 
 class ItensTableViewController: UITableViewController {
     
-    
+    @IBAction func addItemList(_ sender: UIBarButtonItem) {
+    }
     var lista:Lista? = nil
     var itensLista = [ItemLista]()
 
