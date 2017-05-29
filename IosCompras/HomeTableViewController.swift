@@ -36,12 +36,15 @@ import FBSDKLoginKit
  
  */
 
-
 class HomeTableViewController: UITableViewController {
     
     var ref: FIRDatabaseReference!
     
     var UID:String? = nil
+    
+    var nameUser:String?
+    
+    var listaDeCompras = [Lista]()
     
     @IBAction func addLista(_ sender: Any) {
         
@@ -56,11 +59,9 @@ class HomeTableViewController: UITableViewController {
             
             let titulo = alert.textFields![0].text!
             print(titulo)
-            
-            
-            
+
             // Adicionar lista
-            let objLista = Lista(title: titulo, owner: self.UID, itens: nil, ref: nil)
+            let objLista = Lista(title: titulo, owner: self.UID,creator: self.nameUser ,itens: nil, ref: nil)
             let listas = self.ref.child("Listas")
             let novaLista = listas.childByAutoId()
             let codLista = novaLista.key
@@ -80,14 +81,14 @@ class HomeTableViewController: UITableViewController {
     }
     
 
-    var listaDeCompras = [Lista]()
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.ref = FIRDatabase.database().reference()
         self.UID = FIRAuth.auth()?.currentUser!.uid
-
+        self.nameUser = FIRAuth.auth()?.currentUser!.displayName
         
 //        self.ref.child("Usuarios/" + self.UID! + "/MinhasListas" ).observeSingleEvent(of:.value, with: { (snapshot) in
 //            self.listaDeCompras.removeAll()
@@ -117,7 +118,7 @@ class HomeTableViewController: UITableViewController {
                 if (snapshot.value is NSNull) {
                 } else {
                     let value = snapshot.value as! [String: Any]
-                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, itens: nil, ref:snapshot.ref)
+                    let newLista = Lista(title: value["title"] as? String, owner: value["owner"] as? String, creator: value["creator"] as? String ,itens: nil, ref:snapshot.ref)
                     self.listaDeCompras.append(newLista)
                     self.tableView.reloadData()
                 }
@@ -157,6 +158,7 @@ class HomeTableViewController: UITableViewController {
                 if item.ref!.key == idLista {
                     self.listaDeCompras[index].title = updatedValue["title"] as? String
                     self.listaDeCompras[index].owner = updatedValue["owner"] as? String
+                    self.listaDeCompras[index].creator = updatedValue["creator"] as? String
                     break;
                 }
             }
@@ -190,15 +192,16 @@ class HomeTableViewController: UITableViewController {
         return self.listaDeCompras.count
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LISTA_CELL", for: indexPath)
-
-        // TODO: Montar a CELL com o nome do owner
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LISTA_CELL", for: indexPath) as! HomeTableViewCell
         
-        let lista = listaDeCompras[indexPath.row]
-        cell.textLabel?.text = lista.title
-        
+        let item = listaDeCompras[indexPath.row]
+        cell.nameList.text = item.title
+        cell.creatorList.text = item.creator
 
         return cell
     }

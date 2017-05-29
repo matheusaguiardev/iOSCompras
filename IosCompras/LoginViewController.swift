@@ -17,6 +17,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
    
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     var ref: FIRDatabaseReference!
+    var userFacebook:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,10 +73,12 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        
+        if(segue.identifier == "LOGIN_SEGUE"){
+            let destinationViewController = segue.destination as! HomeTableViewController
+            
+            destinationViewController.nameUser = self.userFacebook
+        }
     }
-    
     
     func instanceUser(fbSDK: FBSDKLoginManagerLoginResult, userID:String) -> Void {
         
@@ -95,6 +98,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                             self.ref.child("Usuarios").child(userID).child("foto").setValue(pictureUrlString)
                         }
                         self.ref.child("Usuarios").child(userID).child("nome").setValue(nomeUsuario)
+                        self.userFacebook = nomeUsuario
                     }
                     
                 }
