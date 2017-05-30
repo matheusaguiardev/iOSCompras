@@ -11,7 +11,7 @@ import UIKit
 class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var nameList: UILabel!
     @IBOutlet weak var creatorList: UILabel!
-
+// celula customizada
     override func awakeFromNib() {
         super.awakeFromNib()
         nameList.adjustsFontSizeToFitWidth = true
