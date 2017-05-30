@@ -97,7 +97,7 @@ class ItensTableViewController: UITableViewController, AddViewControllerDelagate
                 
                 for (index, item) in self.itensLista.enumerated() {
                     if item.ref!.key == key {
-                        self.itensLista[index].nome = updatedValue["title"] as? String
+                        self.itensLista[index].nome = updatedValue["nome"] as? String
                         break;
                     }
                 }
