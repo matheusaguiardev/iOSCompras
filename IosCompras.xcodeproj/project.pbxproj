@@ -11,6 +11,8 @@
 		656BF0621ED4EE43006DC58C /* Lista.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656BF0611ED4EE43006DC58C /* Lista.swift */; };
 		656BF0641ED4EF0C006DC58C /* ItemLista.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656BF0631ED4EF0C006DC58C /* ItemLista.swift */; };
 		65B19C481ED6495C00A3FE99 /* ItensTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B19C471ED6495C00A3FE99 /* ItensTableViewController.swift */; };
+		B615E5561EDC987F00DE642B /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E5551EDC987F00DE642B /* HomeTableViewCell.swift */; };
+		B615E5581EDCAB7400DE642B /* ItemListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E5571EDCAB7400DE642B /* ItemListTableViewCell.swift */; };
 		B6851A3B1ECCA0EE00CFA1A6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6851A3A1ECCA0EE00CFA1A6 /* LoginViewController.swift */; };
 		B6851A3F1ECCA15700CFA1A6 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6851A3E1ECCA15700CFA1A6 /* HomeTableViewController.swift */; };
 		B6E754761ECBBE420054BF19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E754751ECBBE420054BF19 /* AppDelegate.swift */; };
@@ -26,6 +28,8 @@
 		65B19C471ED6495C00A3FE99 /* ItensTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItensTableViewController.swift; sourceTree = "<group>"; };
 		65E7FA6551434EBD0106A19B /* Pods-IosCompras.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IosCompras.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IosCompras/Pods-IosCompras.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1CFEB283E55BA8D057C56F /* Pods_IosCompras.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IosCompras.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E5551EDC987F00DE642B /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		B615E5571EDCAB7400DE642B /* ItemListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListTableViewCell.swift; sourceTree = "<group>"; };
 		B6851A3A1ECCA0EE00CFA1A6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B6851A3E1ECCA15700CFA1A6 /* HomeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		B6E754721ECBBE420054BF19 /* IosCompras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IosCompras.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +90,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B615E5541EDC984600DE642B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B615E5551EDC987F00DE642B /* HomeTableViewCell.swift */,
+				B615E5571EDCAB7400DE642B /* ItemListTableViewCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		B6E754691ECBBE420054BF19 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +120,7 @@
 		B6E754741ECBBE420054BF19 /* IosCompras */ = {
 			isa = PBXGroup;
 			children = (
+				B615E5541EDC984600DE642B /* Cell */,
 				65B19C491ED6496400A3FE99 /* Telas */,
 				656BF0601ED4EE27006DC58C /* Bean */,
 				B6E754751ECBBE420054BF19 /* AppDelegate.swift */,
@@ -246,7 +260,9 @@
 			files = (
 				656BF0641ED4EF0C006DC58C /* ItemLista.swift in Sources */,
 				B6851A3F1ECCA15700CFA1A6 /* HomeTableViewController.swift in Sources */,
+				B615E5561EDC987F00DE642B /* HomeTableViewCell.swift in Sources */,
 				B6851A3B1ECCA0EE00CFA1A6 /* LoginViewController.swift in Sources */,
+				B615E5581EDCAB7400DE642B /* ItemListTableViewCell.swift in Sources */,
 				65B19C481ED6495C00A3FE99 /* ItensTableViewController.swift in Sources */,
 				B6E754761ECBBE420054BF19 /* AppDelegate.swift in Sources */,
 				656BF0621ED4EE43006DC58C /* Lista.swift in Sources */,
