@@ -153,9 +153,10 @@ class ItensTableViewController: UITableViewController, AddViewControllerDelagate
     
     
     func editItem(item:ItemLista) -> Void{
+        print("\(item.nome)")
         item.ref?.setValue(item.toAnyObject())
         
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
     
     
