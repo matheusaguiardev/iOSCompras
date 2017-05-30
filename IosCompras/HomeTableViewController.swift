@@ -60,8 +60,6 @@ class HomeTableViewController: UITableViewController {
     }
     
 
-  
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +121,9 @@ class HomeTableViewController: UITableViewController {
         })
         
     }
+    
+        
+        
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -168,12 +169,12 @@ class HomeTableViewController: UITableViewController {
     
     
     // Logout do professor: (atribuir a um botão da barra)
-    func logOut(){
+    @IBAction func logOut(){
         let firebaseAuth = FIRAuth.auth()
+        FBSDKLoginManager().logOut()
         do {
             try firebaseAuth?.signOut()
-            FBSDKLoginManager().logOut()
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController!.popViewController(animated: true)
         } catch let signOutError as NSError {
             print ("Erro efetuando logout: %@", signOutError)
         }

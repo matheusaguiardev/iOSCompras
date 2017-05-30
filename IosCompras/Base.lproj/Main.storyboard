@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5Cd-r7-JbA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5Cd-r7-JbA">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -152,7 +152,7 @@
                     <navigationItem key="navigationItem" title="Listas" id="Pr5-L1-nJQ">
                         <barButtonItem key="leftBarButtonItem" title="Sair" id="uNM-Nc-FAo">
                             <connections>
-                                <action selector="Logout:" destination="lly-4b-BIu" id="I8R-Te-gDq"/>
+                                <action selector="logOut" destination="lly-4b-BIu" id="dFA-aE-A5B"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xXQ-ZI-ksb">
@@ -182,6 +182,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="M9S-QE-9ru" kind="show" identifier="CELL_CLICK_SEGUE" id="gK2-73-uWX"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -193,6 +196,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Rh8-sm-RXf">
                             <connections>
                                 <action selector="addItemList:" destination="USS-Pq-PYb" id="k8R-EQ-hEI"/>
+                                <segue destination="M9S-QE-9ru" kind="show" identifier="EDIT_ITEM_SEGUE" id="LGH-eo-qW7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -200,6 +204,62 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gZ7-fO-uI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2370" y="-100"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="gmy-Av-sdS">
+            <objects>
+                <viewController id="M9S-QE-9ru" customClass="AddViewController" customModule="IosCompras" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ckc-dO-pjU"/>
+                        <viewControllerLayoutGuide type="bottom" id="A5X-7I-Lg5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dw0-1m-myz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n70-9h-svb">
+                                <rect key="frame" x="16" y="116" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="42O-RC-oNE"/>
+                                    <constraint firstAttribute="height" constant="30" id="bU6-0A-hJc"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item de compras" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uP7-6V-T2V">
+                                <rect key="frame" x="90" y="72" width="129" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="ZYz-Xo-lXY"/>
+                                    <constraint firstAttribute="width" constant="129" id="kwH-MH-HuO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uP7-6V-T2V" firstAttribute="leading" secondItem="Dw0-1m-myz" secondAttribute="leadingMargin" constant="74" id="36e-zf-Sjl"/>
+                            <constraint firstItem="uP7-6V-T2V" firstAttribute="top" secondItem="ckc-dO-pjU" secondAttribute="bottom" constant="8" id="RiE-Ai-vUO"/>
+                            <constraint firstItem="n70-9h-svb" firstAttribute="top" secondItem="uP7-6V-T2V" secondAttribute="bottom" constant="23" id="sCn-Lv-XqR"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="n70-9h-svb" secondAttribute="leading" id="yAH-xi-1QK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="sUE-RB-wUr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="6Ng-0r-0Dl">
+                            <connections>
+                                <action selector="saveButton:" destination="M9S-QE-9ru" id="KQz-nj-uWV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nameItem" destination="n70-9h-svb" id="e3O-Q3-6zB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jYL-u6-uDq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3123.75" y="-99.295774647887328"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EUA-49-1h5">
@@ -220,4 +280,7 @@
             <point key="canvasLocation" x="4" y="-100"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="gK2-73-uWX"/>
+    </inferredMetricsTieBreakers>
 </document>

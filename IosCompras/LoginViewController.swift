@@ -26,7 +26,36 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         FIRDatabase.database().persistenceEnabled = false
        
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(LoginViewController.displayLaunchDetails),
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
     }
+    
+    func displayLaunchDetails() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if appDelegate.scheme != nil {
+            //print(appDelegate.scheme)
+            let alert = UIAlertController(title: "URL Link", message: appDelegate.scheme, preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+        }
+        if appDelegate.path != nil {
+            print(appDelegate.path)
+        }
+        if appDelegate.query != nil {
+            print(appDelegate.query)
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
+    }
+        
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -35,7 +64,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     
     func loadFacebookKit() -> Void {
-        if (FBSDKAccessToken.current()) != nil {
+        if let _ = FIRAuth.auth()!.currentUser {
             self.performSegue(withIdentifier: "LOGIN_SEGUE", sender: nil)
             return
         }

@@ -14,7 +14,20 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    // Variaveis e função para receber parametros ao abrir o App pelo link
+    var scheme: String!
+    var path: String!
+    var query: String!
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?)-> Bool {
+        
+        self.scheme = url.scheme
+        self.path = url.path
+        self.query = url.query
+        
+        return true
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

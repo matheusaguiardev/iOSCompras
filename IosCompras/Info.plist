@@ -23,6 +23,8 @@
 			<array>
 				<string>fb1436386326384230</string>
 			</array>
+            <key>CFBundleURLName</key>
+            <string>br.com.reffer.IosCompras</string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>

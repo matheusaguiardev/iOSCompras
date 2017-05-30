@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 
-class ItensTableViewController: UITableViewController {
+class ItensTableViewController: UITableViewController, AddViewControllerDelagate {
     
     var ref: FIRDatabaseReference!
     
@@ -139,7 +139,6 @@ class ItensTableViewController: UITableViewController {
     }
 
 
-
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -151,7 +150,47 @@ class ItensTableViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
+    
+    
+    func editItem(item:ItemLista) -> Void{
+        item.ref?.setValue(item.toAnyObject())
+        
+        self.tableView.reloadData()
+    }
+    
+    
+    func addItem(item:ItemLista) -> Void{
+      createOrUpdateItemFirebase(item: item)
+    }
+    
+    func createOrUpdateItemFirebase(item:ItemLista) -> Void {
+        let objItem = item
+        let itens = self.ref.child("Listas/" + self.idLista! + "/Itens")
+        let novoItem = itens.childByAutoId()
+        novoItem.setValue(objItem.toAnyObject())
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "EDIT_ITEM_SEGUE") {
+            if let dvc = segue.destination as? AddViewController {
+                dvc.delegate = self
+
+            }
+        } else if (segue.identifier == "CELL_CLICK_SEGUE"){
+            if let dvc = segue.destination as? AddViewController {
+                dvc.delegate = self
+                if let indexPath = self.tableView.indexPathForSelectedRow{
+                    dvc.item = self.itensLista[indexPath.row]
+                }
+            }
+        }
+        
+        
+    }
 
 
+//
 
 }
