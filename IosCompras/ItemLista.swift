@@ -10,9 +10,9 @@ import Foundation
 import Firebase
 
 struct ItemLista {
-    var name:String?
+    var nome:String?
     var ref: FIRDatabaseReference?
     func toAnyObject() -> Any {
-        return ["name":name!]
+        return ["nome":nome!]
     }
 }

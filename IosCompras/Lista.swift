@@ -16,6 +16,6 @@ struct Lista {
     var itens:[ItemLista]?
     var ref: FIRDatabaseReference?
     func toAnyObject() -> Any {
-        return ["title":title!, "owner":owner!, "creator":creator]
+        return ["title":title!, "itens":"", "owner":owner!, "creator":creator]
     }
 }
